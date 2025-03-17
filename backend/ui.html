@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website to Figma</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      width: 360px;
+      padding: 20px;
+      background: #f8f9fc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .container {
+      width: 100%;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      border-color: #007AFF;
+      box-shadow: 0px 0px 5px rgba(0, 122, 255, 0.3);
+    }
+
+    button {
+      width: 100%;
+      background: #007AFF;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #005ecb;
+    }
+
+    .info {
+      font-size: 12px;
+      color: #666;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Convert Website to Figma</h2>
+    <input id="url" type="text" placeholder="Enter Website URL">
+    <button id="convert">Convert</button>
+    <p class="info">Paste a URL to extract website design into Figma.</p>
+  </div>
+
+  <script>
+    document.getElementById('convert').onclick = async () => {
+      const url = document.getElementById('url').value.trim();
+      if (!url) {
+        alert("Please enter a valid URL.");
+        return;
+      }
+      const response = await fetch(`http://localhost:3000/scrape-and-analyze?url=${encodeURIComponent(url)}`);
+      const data = await response.json();
+      parent.postMessage({ pluginMessage: { type: 'createPrototype', data } }, '*');
+    };
+  </script>
+</body>
+</html>
